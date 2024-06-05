@@ -78,6 +78,7 @@
 !*.sh
 !*.ts
 !*.tsx
+!*.gd
 
 # Other configuration and markup files
 !*.ini
@@ -93,6 +94,7 @@
 !*.udn
 !*.config
 !*.version
+!*.gdextension
 !.git*
 !.dockerignore
 !.editorconfig
