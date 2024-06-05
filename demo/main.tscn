@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://7qxh2dn06kik"]
+[gd_scene load_steps=3 format=3 uid="uid://7qxh2dn06kik"]
 
 [ext_resource type="Texture2D" uid="uid://ocph8wepdv34" path="res://icon.svg" id="1_pfa21"]
+[ext_resource type="Script" path="res://main.gd" id="1_r6vqi"]
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_r6vqi")
 
 [node name="GDExample" type="GDExample" parent="."]
 amplitude = 100.0
 speed = 3.0
-position = Vector2(42.1867, 189.502)
+position = Vector2(199.852, 9.25172)
 texture = ExtResource("1_pfa21")
+
+[connection signal="position_changed" from="GDExample" to="." method="_on_Sprite2D_position_changed"]
