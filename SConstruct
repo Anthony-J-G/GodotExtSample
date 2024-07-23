@@ -5,7 +5,7 @@ import shutil
 
 PROJECT_FOLDER = "demo"
 LIBRARY_NAME = "libgdexample"
-
+EXTENSION_CONFIG_NAME = "gdexample"
 
 env = SConscript("godot-cpp/SConstruct")
 
@@ -26,14 +26,32 @@ def copy_extension_file():
     :param target_path: The path to the target file.
     :return: None
     """
-    source_path = "config/gdexample.gdextension"
-    target_path = f"{PROJECT_FOLDER}/bin/gdexample.gdextension"
+    source_path = f"config/{EXTENSION_CONFIG_NAME}.gdextension"
+    target_path = f"{PROJECT_FOLDER}/bin/{EXTENSION_CONFIG_NAME}.gdextension"
+    bin_path = f"{PROJECT_FOLDER}/bin"
+
+    if not os.path.exists(bin_path):
+        os.mkdir(bin_path)
+
     if not os.path.exists(target_path):
         shutil.copy2(source_path, target_path)
         print(f"File copied from {source_path} to {target_path}.")
     else:
         print(f"File already exists at {target_path}. Copy operation skipped.")
 
+
+# Create pseudo-builder and add to environment
+def pre_process(env, source):
+    env = env.Clone()
+    env.Replace(OBJSUFFIX = '.E')
+    env.AppendUnique(CCFLAGS = '-E')    
+    return env.Object(source)
+
+env.AddMethod(pre_process, 'PreProcess')
+
+# Target for external dependencies
+# env.Append(LIBPATH=[f'{PROJECT_FOLDER}/bin'])
+# env.Append(LIBS=['libauxdungeon'])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=["src/"])
@@ -58,4 +76,11 @@ else:
     )
 
 Default(library)
+
+# Preprocessor build
+env.Alias('preprocess', env.PreProcess("src/gdexample.cpp"))
+
+# Copies Extension file to build folder
 copy_extension_file()
+
+

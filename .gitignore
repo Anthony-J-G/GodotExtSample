@@ -136,6 +136,7 @@ Dockerfile
 Makefile
 Makefile.*
 Settings.settings
+compile_commands.json
 
 # Ignore Engine Saved Cache
 Conquest/Saved/
